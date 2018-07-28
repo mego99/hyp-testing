@@ -54,8 +54,13 @@ let xScale = d3.scaleLinear()
   .domain([lower,upper])
   .range([0,width]);
 
+let ticks = [];
+for(let i=-6;i<=6;i++) {
+  ticks.push(mean + (stdev * i));
+};
+
 let xAxis = d3.axisBottom(xScale)
-  .tickArguments([9]);
+  .tickValues(ticks);
 
 let yAxis = d3.axisLeft(yScale);
 
@@ -111,6 +116,13 @@ let updateCurve = function() {
   normLine
     .datum(testObj)
     .attr('d',area);
+
+  ticks.length = 0;
+  for(let i=-6;i<=6;i++) {
+    ticks.push(mean + (stdev * i));
+  };
+  xAxis = d3.axisBottom(xScale)
+    .tickValues(ticks);
 
   let t = chart.transition()
     .duration(600);

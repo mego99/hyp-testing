@@ -6,9 +6,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hypothesis Testing</title>
   <script src="scripts/d3.v4.0.0-rc.2.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <svg class='wrapper'></svg>
+  <h1>Hypothesis Testing Demonstrator</h1>
+  <div class='flex-wrapper'>
+    <svg id='wrapper'></svg>
+    <form>
+      <input class='input-stat' id='input-mean' type="text" placeholder="mean" value="0"/>
+      <input class='input-stat' id='input-stdev' type="text" placeholder="st dev" value="1"/>
+      <input class='input-stat' id='input-x' type="text" placeholder="x" />
+    </form>
+
+  </div>
   <script src="script.js"></script>
 </body>
 </html>

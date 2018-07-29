@@ -71,7 +71,6 @@ let area = d3.area()
 
 let normLine = chart.append('path')
   .datum(testObj)
-  .attr('fill','purple')
   .attr("class", "norm-line")
   .attr('transform','translate('+margin+','+-margin+')')
   .attr('d',area);

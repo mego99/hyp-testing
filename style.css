@@ -1,4 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+
+body {
+  font-family: 'Fira Sans',sans-serif;
+  margin:5vmax;
+}
+
+h1 {
+  font-size: 3em;
+}
+
 div.flex-wrapper {
   display: flex;
   flex-direction: row;
+}
+
+input:not([type=submit]):not([type=file]) {
+  padding:10px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #9c9c9c;
+  margin:10px 0 10px 0;
+}
+
+input:not([type=submit]):not([type=file]):focus {
+  outline: none;
+  border-color: #333333;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+path.norm-line {
+  fill:#06bcff;
 }

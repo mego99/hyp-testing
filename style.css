@@ -34,3 +34,8 @@ form {
 path.norm-line {
   fill:#06bcff;
 }
+fieldset {
+  display: flex;
+  flex-direction: column;
+  border:none;
+}

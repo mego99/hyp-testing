@@ -12,13 +12,43 @@
   <h1>Hypothesis Testing Demonstrator</h1>
   <div class='flex-wrapper'>
     <svg id='wrapper'></svg>
-    <form>
-      <label for="prop">sample proportion</label>
-      <input class='input-stat' name="prop" id='input-mean' type="text" placeholder="mean" value="0"/>
-      <label for="stdev">standard deviation</label>
-      <input class='input-stat' name="stdev" id='input-stdev' type="text" placeholder="st dev" value="1"/>
-      <input class='input-stat' name="" id='input-x' type="text" placeholder="x" />
-    </form>
+    <div>
+      <form>
+        <fieldset>
+          <div>
+            <input type='radio' id='z1' value='z1' name='test' checked/>
+            <label for="z1">single proportion z test</label>
+          </div>
+          <div>
+            <input type='radio' id='z2' value='z2' name='test' />
+            <label for="z2">two proportion z test</label>
+          </div>
+          <div>
+            <input type='radio' id='t1' value='t1' name='test'/>
+            <label for="t1">single mean t test</label>
+          </div>
+          <div>
+            <input type='radio' id='t2' value='t2' name='test' />
+            <label for="t2">two mean t test</label>
+          </div>
+          <div>
+            <input type='radio' id='tm' value='tm' name='test'/>
+            <label for="tm">matched pairs t test</label>
+          </div>
+        </fieldset>
+      </form>
+      <form>
+        <label for="prop">sample proportion</label>
+        <input class='input-stat' name="prop" id='input-mean' type="text" placeholder="mean" value="0"/>
+
+        <label for="stdev">standard deviation</label>
+        <input class='input-stat' name="stdev" id='input-stdev' type="text" placeholder="st dev" value="1"/>
+
+        <input class='input-stat' name="" id='input-x' type="text" placeholder="x" />
+      </form>
+    </div>
+
+
 
   </div>
   <script src="script.js"></script>

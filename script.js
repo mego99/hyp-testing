@@ -12,29 +12,21 @@ let mean=0,stdev=1;
 let lower,upper,inc;
 let width = 960, height = 600, margin = 30;
 
-//generate set of x-values and y-values for a Normal curve
+//generate set of x-values and y-values for a Normal curve & assign to above variables
 let genData = function(m,s) {
   testObj.length = 0;
   lower = m - (s*6);
   upper = m + (s*6);
   inc = (upper - lower) / 100;
-  console.log("mean:"+m);
-  console.log("st dev:"+s);
-  console.log("lower: "+lower);
-  console.log("upper: "+upper);
-  console.log("increment: "+inc);
   for (let x=lower; x<upper; x+=inc) {
     testObj.push({
       'xVal':x,
       'normPdf':getNormPdf(x,m,s)
     })
   }
-
-  console.log(testObj);
 }
 
 //set up main chart
-
 d3.select('#wrapper')
   .attr('width',width+(margin*2))
   .attr('height',height+(margin*2))
@@ -44,8 +36,10 @@ let chart = d3.select('#wrapper').append('g')
   .attr('height',height+(margin*2))
   .attr('transform','translate(0,'+margin+')');
 
+//populate variables with data for a standard normal curve
 genData(0,1);
 
+//set up scales and x-axis
 let yScale = d3.scaleLinear()
   .domain([0,d3.max(testObj,function(d){return +d.normPdf + 0.1})])
   .range([height,0]);
@@ -62,6 +56,7 @@ for(let i=-6;i<=6;i++) {
 let xAxis = d3.axisBottom(xScale)
   .tickValues(ticks);
 
+//generate svg for filled in area under urve
 let area = d3.area()
   .x(function(d){return xScale(+d.xVal)})
   .y1(function(d){return yScale(+d.normPdf)})
@@ -78,6 +73,7 @@ chart.append('g')
   .attr('transform','translate('+margin+','+(height-margin)+')')
   .call(xAxis);
 
+//respond to user input (of mean and standard deviation) with new curve
 let updateCurve = function() {
 
   console.log(mean, stdev);
@@ -124,7 +120,6 @@ let updateCurve = function() {
   t.select('.x-axis')
     .call(xAxis);
 };
-
 
 d3.selectAll(".input-stat").on("input", function(){
 	updateCurve();

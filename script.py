@@ -32,7 +32,11 @@ def main():
                                       nobs2=2, #doesn't matter what this value is as long as it's greater than 0
                                       equal_var=False)
         response['teststat'] = tstat
-        response['pval'] = pval / 2
+        if (params['alt'] == 'two-sided'):
+            response['pval'] = pval
+        else:
+            response['pval'] = pval / 2
+
     elif (type == 't2'):
         tstat, pval = sp.stats.ttest_ind_from_stats(mean1=params['xbar1'],
                                       std1=params['xsd1'],
@@ -42,7 +46,10 @@ def main():
                                       nobs2=['n2'],
                                       equal_var=False)
         response['teststat'] = tstat
-        response['pval'] = pval / 2
+        if (params['alt'] == 'two-sided'):
+            response['pval'] = pval
+        else:
+            response['pval'] = pval / 2
 
     print(json.dumps(response)) #the print statement gets outputted into stdout which is read by the api
     sys.stdout.flush()

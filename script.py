@@ -3,35 +3,16 @@ import statsmodels.api as sm
 import numpy as np
 import sys, json
 
-# z1, p_value1 = sm.stats.proportions_ztest(8,29,.226,'larger')
-# print(['{:.12f}'.format(b) for b in (z1, p_value1)])
-
 response = {}
 
+#get parameters passed in from API
 def get_params():
     lines = sys.stdin.readlines()
-    # print('json loads below')
-    # print(json.dump(lines[0], object_hook=to_float))
-    # response.append(lines)
-    # print(lines[0])
     return lines[0]
-    # return '{"suc":"5","n":"10","prop":"0.168","alt":"larger"}'
-    # return '{"suc": 5,"n": 10,"prop": 0.168,"alt": "larger"}'
-
-# def get_params():
-#     return '{"suc":"5","n":"10","prop":"0.168","alt":"larger"}'
-
 
 def main():
-
-
-    # print(get_params())
-    # sys.stdout.flush()
-    # str = "{'suc': '5', 'n': '10', 'prop': '0.168', 'alt': 'larger'}"
     params = json.loads(get_params(), object_hook=to_float)
-    # sys.stdout.flush()
-    # response.append(params)
-    type = params['type']
+    type = params['type'] #variable for the type of statistical test selected by the user
 
     if (type == 'z1'):
         z1, p_value1 = sm.stats.proportions_ztest(params['suc'],params['n'],params['prop'],params['alt'],params['prop'])
@@ -43,12 +24,12 @@ def main():
         response['teststat'] = z1
         response['pval'] = p_value1
     elif (type == 't1'):
-        tstat, pval = sp.stats.ttest_ind_from_stats(mean1=params['xbar'],
+        tstat, pval = sp.stats.ttest_ind_from_stats(mean1=params['xbar'], #use scipy's 2 mean ttest function for the 1 mean ttest
                                       std1=params['xsd'],
                                       nobs1=params['n'],
                                       mean2=params['mu'],
                                       std2=0,
-                                      nobs2=2,
+                                      nobs2=2, #doesn't matter what this value is as long as it's greater than 0
                                       equal_var=False)
         response['teststat'] = tstat
         response['pval'] = pval / 2
@@ -63,10 +44,10 @@ def main():
         response['teststat'] = tstat
         response['pval'] = pval / 2
 
-
-    print(json.dumps(response))
+    print(json.dumps(response)) #the print statement gets outputted into stdout which is read by the api
     sys.stdout.flush()
 
+# convert numerical strings in the JSON to floats
 def to_float(obj):
     for value in obj:
         try:

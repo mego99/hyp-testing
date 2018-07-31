@@ -62,8 +62,6 @@ for(let i=-6;i<=6;i++) {
 let xAxis = d3.axisBottom(xScale)
   .tickValues(ticks);
 
-let yAxis = d3.axisLeft(yScale);
-
 let area = d3.area()
   .x(function(d){return xScale(+d.xVal)})
   .y1(function(d){return yScale(+d.normPdf)})
@@ -79,12 +77,6 @@ chart.append('g')
   .attr("class", "x-axis axis")
   .attr('transform','translate('+margin+','+(height-margin)+')')
   .call(xAxis);
-
-chart.append('g')
-  .attr("class", "y-axis axis")
-  .attr('transform','translate('+margin+','+-margin+')')
-  .call(yAxis);
-
 
 let updateCurve = function() {
 
@@ -131,10 +123,6 @@ let updateCurve = function() {
 
   t.select('.x-axis')
     .call(xAxis);
-
-  t.select('.y-axis')
-    .call(yAxis);
-
 };
 
 

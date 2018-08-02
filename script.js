@@ -1,3 +1,51 @@
+document.addEventListener('DOMContentLoaded',function() {
+    document.querySelector('fieldset[name="test-type"]').onchange=testSelection;
+    document.querySelector('input[type="button"]').onclick=sendParams;
+},false);
+
+function testSelection(event) {
+  console.log(event.target);
+  console.log(event.target.value);
+  let selectedTest = event.target.value + "Form";
+  console.log(selectedTest);
+  let forms  = document.querySelectorAll("form.test");
+  console.log(forms);
+  forms.forEach(function(form) {
+    form.classList.add('hide-form');
+    form.classList.add('selected-form');
+  });
+  document.getElementById(selectedTest).classList.remove('hide-form');
+  document.getElementById(selectedTest).classList.add('selected-form');
+}
+
+function sendParams(event) {
+  console.log(document.querySelector('.selected-form'));
+  thisForm = new FormData(document.querySelector('.selected-form'));
+  console.log(thisForm);
+  console.log(thisForm.entries());
+  let str = '', url = '';
+  let id = event.target.id;
+  for (let param of thisForm.entries()) {
+    str += param[1] + "-";
+  }
+  console.log(str);
+  console.log(str.substring(0,str.length-1));
+  str = str.substring(0,str.length-1);
+  url = 'http://localhost:4000/api/' + id + '/' + str;
+  console.log(url);
+  console.log(this);
+  console.log(event.target.id);
+  var xhr = new XMLHttpRequest;
+  xhr.addEventListener("load", transferComplete);
+  xhr.open('GET', url);
+  xhr.send();
+}
+
+function transferComplete() {
+  let response = JSON.parse(this.response);
+  updateCurve(response['teststat'],response['pval']);
+}
+
 //calculate Normal PDF given x-value, mean, and standard deviation
 let getNormPdf = function(x,mean,stdev) {
   let variance = stdev * stdev;
@@ -17,7 +65,7 @@ let genData = function(m,s) {
   testObj.length = 0;
   lower = m - (s*6);
   upper = m + (s*6);
-  inc = (upper - lower) / 100;
+  inc = (upper - lower) / 200;
   for (let x=lower; x<upper; x+=inc) {
     testObj.push({
       'xVal':x,
@@ -73,54 +121,35 @@ chart.append('g')
   .attr('transform','translate('+margin+','+(height-margin)+')')
   .call(xAxis);
 
-//respond to user input (of mean and standard deviation) with new curve
-let updateCurve = function() {
-
-  console.log(mean, stdev);
-  console.log(d3.select("#input-mean").property("value"));
-  console.log(typeof d3.select("#input-mean").property("value"));
-  if (parseInt(d3.select("#input-mean").property("value")) !== NaN) {
-    mean = Number(d3.select("#input-mean").property("value"))
+//display results of the hypothesis test on the chart
+let updateCurve = function(tstat,pval) {
+  console.log(tstat,pval);
+  if (d3.selectAll('g.test-result') !== null) {
+    d3.selectAll('g.test-result').remove();
   }
-  if (parseInt(d3.select("#input-stdev").property("value")) !== NaN ) {
-    stdev = Number(d3.select("#input-stdev").property("value"))
-  }
-  console.log(mean, stdev);
+  let testresult = chart.append('g')
+    .attr('class','test-result');
 
-  genData(mean,stdev);
+  testresult.append('line')
+    .attr('x1',xScale(tstat))
+    .attr('y1',0)
+    .attr('x2',xScale(tstat))
+    .attr('y2',height)
+    .style("stroke-width", 2)
+    .style("stroke", "red")
+    .style("fill", "none");
 
-  xScale
-    .domain([lower,upper]);
-
-  yScale
-  .domain([0,d3.max(testObj,function(d){return +d.normPdf + 0.1})]);
-
-  area
-    .x(function(d){return xScale(+d.xVal)})
-    .y1(function(d){return yScale(+d.normPdf)})
-    .y0(yScale(0));
-
-  normLine
-    .datum(testObj)
-    .attr('d',area);
-
-  ticks.length = 0;
-  for(let i=-6;i<=6;i++) {
-    ticks.push(mean + (stdev * i));
-  };
-  xAxis = d3.axisBottom(xScale)
-    .tickValues(ticks);
-
-  let t = chart.transition()
-    .duration(600);
-
-  t.select('.norm-line')
-    .attr('d',area);
-
-  t.select('.x-axis')
-    .call(xAxis);
+  //
+  // let t = chart.transition()
+  //   .duration(600);
+  //
+  // t.select('.norm-line')
+  //   .attr('d',area);
+  //
+  // t.select('.x-axis')
+  //   .call(xAxis);
 };
-
-d3.selectAll(".input-stat").on("input", function(){
-	updateCurve();
-});
+//
+// d3.selectAll(".input-stat").on("input", function(){
+// 	updateCurve();
+// });

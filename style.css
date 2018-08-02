@@ -14,16 +14,14 @@ div.flex-wrapper {
   flex-direction: row;
 }
 
-input:not([type=submit]):not([type=file]) {
+input:not([type=submit]) {
   padding:10px;
   border-radius: 3px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #9c9c9c;
+  border:0.5px solid #9c9c9c;
   margin:10px 0 10px 0;
 }
 
-input:not([type=submit]):not([type=file]):focus {
+input:not([type=submit]):focus , select:focus{
   outline: none;
   border-color: #333333;
 }
@@ -38,4 +36,21 @@ fieldset {
   display: flex;
   flex-direction: column;
   border:none;
+}
+input:invalid {
+  border: 1px dashed red;
+}
+
+input:invalid:focus {
+  border: 1px dashed red;
+}
+.hide-form {
+  display: none;
+}
+select, input[type=submit] {
+  border:0.5px solid #9c9c9c;
+  padding:10px;
+  -webkit-appearance: none;
+  border-radius:3px;
+  margin:10px 0 10px 0;
 }

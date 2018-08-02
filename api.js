@@ -27,6 +27,7 @@ let get_py = function(req,res,next) {
 
 
 app.get('/api/z1/:suc-:n-:prop-:alt', function(req,res,next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   res.locals.testType = 'z1';
   next();
 }, [get_py], function(req,res) {

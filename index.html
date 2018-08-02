@@ -14,7 +14,8 @@
     <svg id='wrapper'></svg>
     <div>
       <form>
-        <fieldset>
+        <fieldset name="test-type">
+          <legend>Test Type</legend>
           <div>
             <input type='radio' id='z1' value='z1' name='test' checked/>
             <label for="z1">single proportion z test</label>
@@ -31,24 +32,97 @@
             <input type='radio' id='t2' value='t2' name='test' />
             <label for="t2">two mean t test</label>
           </div>
-          <div>
-            <input type='radio' id='tm' value='tm' name='test'/>
-            <label for="tm">matched pairs t test</label>
-          </div>
         </fieldset>
       </form>
-      <form>
-        <label for="prop">sample proportion</label>
-        <input class='input-stat' name="prop" id='input-mean' type="text" placeholder="mean" value="0"/>
+      <form id='z1Form' class='test selected-form'>
+        <label for="suc">total successes (x)</label>
+        <input class='input-stat' name="suc" id='input-suc' type="text" placeholder="successes" value="8" required pattern="\d*\.*\d+"/>
 
-        <label for="stdev">standard deviation</label>
-        <input class='input-stat' name="stdev" id='input-stdev' type="text" placeholder="st dev" value="1"/>
+        <label for="n">sample size (n)</label>
+        <input class='input-stat' name="n" id='input-n' type="text" placeholder="n" value="10"/>
 
-        <input class='input-stat' name="" id='input-x' type="text" placeholder="x" />
+        <label for="prop">null hypothesis proportion (P<sub>0</sub>)</label>
+        <input class='input-stat' name="prop" id='input-prop' type="text" placeholder="p0" value="0.7"/>
+
+        <label for="alt">alternative hypothesis</label>
+        <select class='input-alt' name="alt" id='input-alt' type="text" placeholder="alternative">
+          <option value='larger'>Px > P<sub>0</sub></option>
+          <option value='smaller'>Px < P<sub>0</sub></option>
+          <option value='two-sided'>Px ≠ P<sub>0</sub></option>
+        </select>
+        <input type='button' value='Run the Test!' id='z1'/>
       </form>
+
+      <form id='z2Form' class='test hide-form'>
+        <label for="suc1">total successes 1(x<sub>1</sub>)</label>
+        <input class='input-stat' name="suc1" id='input-suc1' type="text" placeholder="mean" value="30" required pattern="\d*\.*\d+"/>
+
+        <label for="n1">sample size 1 (n<sub>1</sub>)</label>
+        <input class='input-stat' name="n1" id='input-n1' type="text" placeholder="mean" value="50"/>
+
+        <label for="suc2">total successes 2 (x<sub>2</sub>)</label>
+        <input class='input-stat' name="suc2" id='input-suc2' type="text" placeholder="mean" value="25" required pattern="\d*\.*\d+"/>
+
+        <label for="n2">sample size 2 (n<sub>2</sub>)</label>
+        <input class='input-stat' name="n2" id='input-n2' type="text" placeholder="mean" value="60"/>
+
+        <label for="alt">alternative hypothesis</label>
+        <select class='input-alt' name="alt" id='input-alt' type="text" placeholder="alternative">
+          <option value='larger'>Px > P<sub>0</sub></option>
+          <option value='smaller'>Px < P<sub>0</sub></option>
+          <option value='two-sided'>Px ≠ P<sub>0</sub></option>
+        </select>
+        <input type='button' value='Run the Test!' id='z2'/>
+      </form>
+
+      <form id='t1Form' class='test hide-form'>
+        <label for="mu">null hypothesis mean </label>
+        <input class='input-stat' name="mu" id='input-mu' type="text" placeholder="mu" value="9"/>
+
+        <label for="xbar">sample mean (x bar)</label>
+        <input class='input-stat' name="xbar" id='input-xbar' type="text" placeholder="xbar" value="10"/>
+
+        <label for="stdev">sample standard deviation</label>
+        <input class='input-stat' name="stdev" id='input-stdev' type="text" placeholder="st dev" value="2"/>
+
+        <label for="alt">alternative hypothesis</label>
+        <select class='input-alt' name="alt" id='input-alt' type="text" placeholder="alternative">
+          <option value='larger'>Px > P<sub>0</sub></option>
+          <option value='smaller'>Px < P<sub>0</sub></option>
+          <option value='two-sided'>Px ≠ P<sub>0</sub></option>
+        </select>
+        <input type='button' value='Run the Test!' id='t1'/>
+      </form>
+
+      <form id='t2Form' class='test hide-form'>
+        <label for="xbar1">sample mean 1 (x bar<sub>1</sub>)</label>
+        <input class='input-stat' name="xbar1" id='input-xbar1' type="text" placeholder="xbar" value="9"/>
+
+        <label for="xsd1">sample standard deviation 1</label>
+        <input class='input-stat' name="xsd1" id='input-xsd1' type="text" placeholder="st dev" value="10"/>
+
+        <label for="n1">sample size 1 (n<sub>1</sub>)</label>
+        <input class='input-stat' name="n1" id='input-n1' type="text" placeholder="st dev" value="90"/>
+
+        <label for="xbar2">sample mean 2 (x bar<sub>2</sub>)</label>
+        <input class='input-stat' name="xbar2" id='input-xbar2' type="text" placeholder="xbar" value="12"/>
+
+        <label for="xsd2">sample standard deviation 2</label>
+        <input class='input-stat' name="xsd2" id='input-xsd2' type="text" placeholder="st dev" value="3"/>
+
+        <label for="n2">sample size 2 (n<sub>2</sub>)</label>
+        <input class='input-stat' name="n2" id='input-n2' type="text" placeholder="st dev" value="100"/>
+
+        <label for="alt">alternative hypothesis</label>
+        <select class='input-alt' name="alt" id='input-alt' type="text" placeholder="alternative">
+          <option value='larger'>Px > P<sub>0</sub></option>
+          <option value='smaller'>Px < P<sub>0</sub></option>
+          <option value='two-sided'>Px ≠ P<sub>0</sub></option>
+        </select>
+        <input type='button' value='Run the Test!' id='t2'/>
+      </form>
+      
     </div>
-
-
 
   </div>
   <script src="script.js"></script>
